@@ -29,6 +29,16 @@ sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (10, 6)
 plt.rcParams['font.size'] = 10
 
+# ============================================================================
+# OUTPUT DIRECTORY STRUCTURE
+# ============================================================================
+# This module organizes outputs according to the project structure:
+#   outputs/
+#   ├── figures/          - plots, word clouds, charts used in report
+#   ├── metrics/          - model performance metrics or confusion matrices
+#   └── saved_models/     - trained model weights (if small enough)
+# ============================================================================
+
 
 # ============================================================================
 # PERFORMANCE METRICS ANALYSIS
@@ -580,10 +590,15 @@ def generate_model_report(
     vectorizer: Any = None,
     y_true: np.ndarray = None,
     y_pred: np.ndarray = None,
-    save_dir: str = '../outputs/metrics'
+    save_dir: str = '../outputs/metrics'  # Metrics and reports go here
 ) -> str:
     """
     Generate a comprehensive evaluation report for a model.
+    
+    Output files will be saved to:
+        - Text reports: {save_dir}/*.txt (outputs/metrics/)
+        - JSON metrics: {save_dir}/*.json (outputs/metrics/)
+        - Visualizations: {save_dir}/../figures/*.png (outputs/figures/)
     
     Args:
         model: Trained model
@@ -594,7 +609,7 @@ def generate_model_report(
         vectorizer: Feature vectorizer (for Dense NN)
         y_true: True labels (for confusion matrix)
         y_pred: Predicted labels (for confusion matrix)
-        save_dir: Directory to save the report
+        save_dir: Directory to save metrics and reports (default: '../outputs/metrics')
     
     Returns:
         Formatted report string
@@ -622,8 +637,9 @@ def generate_model_report(
         if feature_weights:
             print_interpretability_report(feature_weights, model_name, top_n=15)
             
-            # Visualize
-            save_path = f'{save_dir}/../figures/{model_name.lower().replace(" ", "_")}_feature_importance.png'
+            # Visualize - save to outputs/figures/
+            figures_dir = os.path.join(os.path.dirname(save_dir), 'figures')
+            save_path = os.path.join(figures_dir, f'{model_name.lower().replace(" ", "_")}_feature_importance.png')
             visualize_feature_importance(feature_weights, model_name, save_path)
     
     # 4. Turing Machine Concepts
@@ -635,9 +651,9 @@ def generate_model_report(
     turing_analysis = analyze_turing_concepts(model_type, architecture_info)
     print(turing_analysis)
     
-    # Save report to file
+    # Save report to file - outputs/metrics/
     os.makedirs(save_dir, exist_ok=True)
-    report_path = f'{save_dir}/{model_name.lower().replace(" ", "_")}_evaluation_report.txt'
+    report_path = os.path.join(save_dir, f'{model_name.lower().replace(" ", "_")}_evaluation_report.txt')
     
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write('\n'.join(report))
@@ -645,8 +661,8 @@ def generate_model_report(
     
     print(f"\n✅ Full report saved to: {report_path}\n")
     
-    # Save metrics as JSON
-    metrics_path = f'{save_dir}/{model_name.lower().replace(" ", "_")}_metrics.json'
+    # Save metrics as JSON - outputs/metrics/
+    metrics_path = os.path.join(save_dir, f'{model_name.lower().replace(" ", "_")}_metrics.json')
     save_data = {
         'model_name': model_name,
         'model_type': model_type,
