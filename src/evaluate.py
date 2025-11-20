@@ -100,7 +100,7 @@ def print_performance_report(
     print(f"  PERFORMANCE EVALUATION: {model_name}")
     print(f"{'='*70}\n")
     
-    print(f"📊 Classification Metrics:")
+    print(f" Classification Metrics:")
     print(f"  • Accuracy:       {metrics['accuracy']:.4f}")
     print(f"  • Precision:      {metrics['precision']:.4f}")
     print(f"  • Recall:         {metrics['recall']:.4f}")
@@ -110,7 +110,7 @@ def print_performance_report(
     if 'specificity' in metrics:
         print(f"  • Specificity:    {metrics['specificity']:.4f}")
     
-    print(f"\n📈 Confusion Matrix Components:")
+    print(f"\n Confusion Matrix Components:")
     if 'true_positives' in metrics:
         print(f"  • True Positives:  {metrics['true_positives']}")
         print(f"  • True Negatives:  {metrics['true_negatives']}")
@@ -119,15 +119,15 @@ def print_performance_report(
     
     # Comparison with baseline
     improvement = (metrics['accuracy'] - baseline_accuracy) * 100
-    print(f"\n🎯 Comparison with Baseline:")
+    print(f"\n Comparison with Baseline:")
     print(f"  • Baseline Accuracy: {baseline_accuracy:.4f}")
     print(f"  • Model Accuracy:    {metrics['accuracy']:.4f}")
     print(f"  • Improvement:       {improvement:+.2f}%")
     
     if improvement > 0:
-        print(f"  ✅ Model outperforms baseline by {improvement:.2f}%")
+        print(f"   Model outperforms baseline by {improvement:.2f}%")
     else:
-        print(f"  ⚠️  Model underperforms baseline by {abs(improvement):.2f}%")
+        print(f"    Model underperforms baseline by {abs(improvement):.2f}%")
     
     print(f"\n{'='*70}\n")
 
@@ -267,19 +267,19 @@ def print_complexity_report(
     print(f"  TRAINING COMPLEXITY ANALYSIS: {model_name}")
     print(f"{'='*70}\n")
     
-    print(f"🏗️  Model Architecture:")
+    print(f"  Model Architecture:")
     print(f"  • Total Parameters:        {complexity.get('total_parameters', 'N/A'):,}")
     print(f"  • Trainable Parameters:    {complexity.get('trainable_parameters', 'N/A'):,}")
     print(f"  • Non-trainable Parameters: {complexity.get('non_trainable_parameters', 'N/A'):,}")
     print(f"  • Estimated Memory:        {complexity.get('estimated_memory_mb', 'N/A')} MB")
     print(f"  • Number of Layers:        {complexity.get('num_layers', 'N/A')}")
     
-    print(f"\n📚 Layer-wise Parameters:")
+    print(f"\n Layer-wise Parameters:")
     if 'layer_parameters' in complexity:
         for layer_info in complexity['layer_parameters']:
             print(f"  • {layer_info['name']:20s} ({layer_info['type']:15s}): {layer_info['parameters']:>8,} params")
     
-    print(f"\n⚡ Training Efficiency:")
+    print(f"\n Training Efficiency:")
     print(f"  • Epochs Trained:          {efficiency.get('epochs_trained', 'N/A')}")
     if 'best_epoch' in efficiency:
         print(f"  • Best Epoch:              {efficiency['best_epoch']}")
@@ -290,13 +290,13 @@ def print_complexity_report(
         print(f"  • Final Val Accuracy:      {efficiency['final_val_accuracy']:.4f}")
     
     if 'overfitting_detected' in efficiency:
-        print(f"\n🔍 Overfitting Analysis:")
+        print(f"\n Overfitting Analysis:")
         print(f"  • Train-Val Gap:           {efficiency['train_val_gap']:.4f}")
         if efficiency['overfitting_detected']:
             severity = efficiency.get('overfitting_severity', 'Unknown')
-            print(f"  ⚠️  Overfitting Detected:   {severity}")
+            print(f"    Overfitting Detected:   {severity}")
         else:
-            print(f"  ✅ No Significant Overfitting")
+            print(f"   No Significant Overfitting")
     
     print(f"\n{'='*70}\n")
 
@@ -402,7 +402,7 @@ def visualize_feature_importance(
     if save_path:
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        print(f"✅ Feature importance plot saved to: {save_path}")
+        print(f" Feature importance plot saved to: {save_path}")
     
     plt.show()
 
@@ -424,12 +424,12 @@ def print_interpretability_report(
     print(f"  INTERPRETABILITY ANALYSIS: {model_name}")
     print(f"{'='*70}\n")
     
-    print(f"🔍 Top {top_n} Features for POSITIVE Sentiment:")
+    print(f" Top {top_n} Features for POSITIVE Sentiment:")
     pos_features = feature_weights['top_positive_features'][:top_n]
     for i, (word, weight) in enumerate(pos_features, 1):
         print(f"  {i:2d}. {word:20s} → {weight:+.4f}")
     
-    print(f"\n🔍 Top {top_n} Features for NEGATIVE Sentiment:")
+    print(f"\n Top {top_n} Features for NEGATIVE Sentiment:")
     neg_features = feature_weights['top_negative_features'][:top_n]
     for i, (word, weight) in enumerate(neg_features, 1):
         print(f"  {i:2d}. {word:20s} → {weight:+.4f}")
@@ -460,7 +460,7 @@ def analyze_turing_concepts(
     analysis += f"{'='*70}\n\n"
     
     if model_type.lower() == 'dense':
-        analysis += "🧠 **MEMORY CHARACTERISTICS**\n"
+        analysis += " **MEMORY CHARACTERISTICS**\n"
         analysis += "  • Type: STATELESS (No memory between inputs)\n"
         analysis += "  • Comparison to Turing Machine:\n"
         analysis += "    - A Turing Machine has a TAPE for memory storage\n"
@@ -471,7 +471,7 @@ def analyze_turing_concepts(
         analysis += "    - Treats each sentence as a bag-of-words (order-independent)\n"
         analysis += "    - Suitable for tasks where word order is less critical\n\n"
         
-        analysis += "📊 **SEQUENCE PROCESSING**\n"
+        analysis += " **SEQUENCE PROCESSING**\n"
         analysis += "  • Processing Model: PARALLEL (all features processed simultaneously)\n"
         analysis += "  • Comparison to Turing Machine:\n"
         analysis += "    - Turing Machine processes symbols SEQUENTIALLY on tape\n"
@@ -482,7 +482,7 @@ def analyze_turing_concepts(
         analysis += "    - Cannot model long-range dependencies\n"
         analysis += "    - Word order information is lost\n\n"
         
-        analysis += "⚙️  **COMPUTABILITY & EXPRESSIVENESS**\n"
+        analysis += "  **COMPUTABILITY & EXPRESSIVENESS**\n"
         analysis += "  • Computational Power:\n"
         analysis += "    - Dense NNs are UNIVERSAL FUNCTION APPROXIMATORS\n"
         analysis += "    - Can approximate any continuous function (Universal Approximation Theorem)\n"
@@ -495,19 +495,19 @@ def analyze_turing_concepts(
         analysis += "    - Turing Machine: Can compute any computable function\n"
         analysis += "    - Dense NN: Limited to function approximation over fixed inputs\n\n"
         
-        analysis += "🔗 **CONNECTION TO FORMAL LANGUAGE THEORY**\n"
+        analysis += " **CONNECTION TO FORMAL LANGUAGE THEORY**\n"
         analysis += "  • Language Recognition Capability:\n"
         analysis += "    - Can recognize REGULAR LANGUAGES (like finite automata)\n"
         analysis += "    - Cannot recognize CONTEXT-FREE or CONTEXT-SENSITIVE languages\n"
         analysis += "    - Sentiment classification is a REGULAR task (word presence/absence)\n"
         analysis += "  • Chomsky Hierarchy Position:\n"
-        analysis += "    - Level 3: Regular Languages ✅\n"
+        analysis += "    - Level 3: Regular Languages \n"
         analysis += "    - Level 2: Context-Free Languages ❌\n"
         analysis += "    - Level 1: Context-Sensitive Languages ❌\n"
         analysis += "    - Level 0: Recursively Enumerable Languages ❌\n\n"
     
     elif model_type.lower() == 'rnn':
-        analysis += "🧠 **MEMORY CHARACTERISTICS**\n"
+        analysis += " **MEMORY CHARACTERISTICS**\n"
         analysis += "  • Type: STATEFUL (Hidden state carries information)\n"
         analysis += "  • Comparison to Turing Machine:\n"
         analysis += "    - RNN has HIDDEN STATE (analogous to TM's internal state)\n"
@@ -518,7 +518,7 @@ def analyze_turing_concepts(
         analysis += "    - Struggles with long sequences\n"
         analysis += "    - Memory decays over time\n\n"
         
-        analysis += "📊 **SEQUENCE PROCESSING**\n"
+        analysis += " **SEQUENCE PROCESSING**\n"
         analysis += "  • Processing Model: SEQUENTIAL (left-to-right)\n"
         analysis += "  • Comparison to Turing Machine:\n"
         analysis += "    - Similar to TM: processes one token at a time\n"
@@ -529,7 +529,7 @@ def analyze_turing_concepts(
         analysis += "    - Slower inference than Dense NN\n"
         analysis += "    - Better for sequential tasks\n\n"
         
-        analysis += "⚙️  **COMPUTABILITY & EXPRESSIVENESS**\n"
+        analysis += "  **COMPUTABILITY & EXPRESSIVENESS**\n"
         analysis += "  • Computational Power:\n"
         analysis += "    - RNNs are TURING-COMPLETE (theoretically)\n"
         analysis += "    - Can simulate any Turing Machine computation\n"
@@ -540,7 +540,7 @@ def analyze_turing_concepts(
         analysis += "    - Difficulty learning long-term dependencies\n\n"
     
     elif model_type.lower() == 'lstm':
-        analysis += "🧠 **MEMORY CHARACTERISTICS**\n"
+        analysis += " **MEMORY CHARACTERISTICS**\n"
         analysis += "  • Type: STATEFUL with LONG-TERM MEMORY (Cell state + Hidden state)\n"
         analysis += "  • Comparison to Turing Machine:\n"
         analysis += "    - LSTM has CELL STATE (analogous to TM's tape)\n"
@@ -551,7 +551,7 @@ def analyze_turing_concepts(
         analysis += "    - Mitigates vanishing gradient problem\n"
         analysis += "    - More sophisticated memory management than RNN\n\n"
         
-        analysis += "📊 **SEQUENCE PROCESSING**\n"
+        analysis += " **SEQUENCE PROCESSING**\n"
         analysis += "  • Processing Model: SEQUENTIAL with GATED MEMORY\n"
         analysis += "  • Comparison to Turing Machine:\n"
         analysis += "    - Similar sequential processing to TM\n"
@@ -563,7 +563,7 @@ def analyze_turing_concepts(
         analysis += "    - Can learn complex temporal patterns\n"
         analysis += "    - More parameters = more computational cost\n\n"
         
-        analysis += "⚙️  **COMPUTABILITY & EXPRESSIVENESS**\n"
+        analysis += "  **COMPUTABILITY & EXPRESSIVENESS**\n"
         analysis += "  • Computational Power:\n"
         analysis += "    - LSTMs are TURING-COMPLETE (theoretically)\n"
         analysis += "    - More practical than vanilla RNNs for complex tasks\n"
@@ -659,7 +659,7 @@ def generate_model_report(
         f.write('\n'.join(report))
         f.write('\n\n' + turing_analysis)
     
-    print(f"\n✅ Full report saved to: {report_path}\n")
+    print(f"\n Full report saved to: {report_path}\n")
     
     # Save metrics as JSON - outputs/metrics/
     metrics_path = os.path.join(save_dir, f'{model_name.lower().replace(" ", "_")}_metrics.json')
@@ -675,7 +675,7 @@ def generate_model_report(
     with open(metrics_path, 'w', encoding='utf-8') as f:
         json.dump(save_data, f, indent=2)
     
-    print(f"✅ Metrics saved to: {metrics_path}\n")
+    print(f" Metrics saved to: {metrics_path}\n")
     
     return '\n'.join(report)
 
@@ -714,7 +714,7 @@ def plot_confusion_matrix(
     if save_path:
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        print(f"✅ Confusion matrix saved to: {save_path}")
+        print(f" Confusion matrix saved to: {save_path}")
     
     plt.show()
 
@@ -766,7 +766,7 @@ def plot_training_history(
     if save_path:
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        print(f"✅ Training history plot saved to: {save_path}")
+        print(f" Training history plot saved to: {save_path}")
     
     plt.show()
 
