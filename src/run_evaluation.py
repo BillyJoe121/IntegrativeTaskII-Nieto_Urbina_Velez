@@ -112,7 +112,7 @@ def evaluate_dense_nn(X_train, X_test, y_train, y_test):
     print("  EVALUATING DENSE NEURAL NETWORK")
     print("="*70 + "\n")
     
-    model_path = MODELS_DIR / 'dense_nn_model.h5'
+    model_path = MODELS_DIR / 'dense_nn_model.keras'
     vectorizer_path = MODELS_DIR / 'tfidf_vectorizer.pkl'
     history_path = MODELS_DIR / 'dense_nn_history.pkl'
     
@@ -120,13 +120,6 @@ def evaluate_dense_nn(X_train, X_test, y_train, y_test):
     if not model_path.exists():
         print(f" Model not found: {model_path}")
         print(" Please train the Dense NN model first in the notebook.")
-        print(" Add this code at the end of Dense NN section:")
-        print("   dnn_model.save('../outputs/saved_models/dense_nn_model.h5')")
-        print("   import pickle")
-        print("   with open('../outputs/saved_models/tfidf_vectorizer.pkl', 'wb') as f:")
-        print("       pickle.dump(vectorizer, f)")
-        print("   with open('../outputs/saved_models/dense_nn_history.pkl', 'wb') as f:")
-        print("       pickle.dump(history.history, f)")
         return
     
     # Load model
@@ -138,10 +131,14 @@ def evaluate_dense_nn(X_train, X_test, y_train, y_test):
     with open(vectorizer_path, 'rb') as f:
         vectorizer = pickle.load(f)
     
-    # Load history
-    print(" Loading training history...")
-    with open(history_path, 'rb') as f:
-        history = pickle.load(f)
+    # Load history (optional)
+    history = None
+    if history_path.exists():
+        print(" Loading training history...")
+        with open(history_path, 'rb') as f:
+            history = pickle.load(f)
+    else:
+        print(" Training history not found (will skip history plots)")
     
     # Transform data
     print(" Transforming data with TF-IDF...")
@@ -181,12 +178,16 @@ def evaluate_dense_nn(X_train, X_test, y_train, y_test):
         save_path=str(FIGURES_DIR / 'dense_nn_confusion_matrix.png')
     )
     
-    # Training history
-    plot_training_history(
-        history,
-        "Dense Neural Network",
-        save_path=str(FIGURES_DIR / 'dense_nn_training_history.png')
-    )
+    # Training history (if available)
+    if history is not None:
+        plot_training_history(
+            history,
+            "Dense Neural Network",
+            save_path=str(FIGURES_DIR / 'dense_nn_training_history.png')
+        )
+    else:
+        print(" Skipping training history plot (history not available)")
+
     
     print("\n Dense NN evaluation complete!")
     print(f" Reports saved to: {METRICS_DIR}")
@@ -311,21 +312,15 @@ def evaluate_lstm(X_train, X_test, y_train, y_test):
     print("  EVALUATING LSTM")
     print("="*70 + "\n")
     
-    model_path = MODELS_DIR / 'lstm_model.h5'
+    model_path = MODELS_DIR / 'lstm_model.keras'
     tokenizer_path = MODELS_DIR / 'lstm_tokenizer.pkl'
+    params_path = MODELS_DIR / 'lstm_params.pkl'
     history_path = MODELS_DIR / 'lstm_history.pkl'
     
     # Check if files exist
     if not model_path.exists():
         print(f" Model not found: {model_path}")
         print(" Please train the LSTM model first in the notebook.")
-        print(" Add this code at the end of LSTM section:")
-        print("   lstm_model.save('../outputs/saved_models/lstm_model.h5')")
-        print("   import pickle")
-        print("   with open('../outputs/saved_models/lstm_tokenizer.pkl', 'wb') as f:")
-        print("       pickle.dump(tokenizer_lstm, f)")
-        print("   with open('../outputs/saved_models/lstm_history.pkl', 'wb') as f:")
-        print("       pickle.dump(lstm_history.history, f)")
         return
     
     # Load model
@@ -337,13 +332,20 @@ def evaluate_lstm(X_train, X_test, y_train, y_test):
     with open(tokenizer_path, 'rb') as f:
         tokenizer = pickle.load(f)
     
-    # Load history
-    print(" Loading training history...")
-    with open(history_path, 'rb') as f:
-        history = pickle.load(f)
+    # Load parameters
+    print(" Loading model parameters...")
+    with open(params_path, 'rb') as f:
+        params = pickle.load(f)
+    max_length = params['max_length']
     
-    # Get max_length from model input shape
-    max_length = model.input_shape[1]
+    # Load history (optional)
+    history = None
+    if history_path.exists():
+        print(" Loading training history...")
+        with open(history_path, 'rb') as f:
+            history = pickle.load(f)
+    else:
+        print(" Training history not found (will skip history plots)")
     
     # Transform data
     print(f" Tokenizing and padding sequences (max_length={max_length})...")
@@ -383,12 +385,16 @@ def evaluate_lstm(X_train, X_test, y_train, y_test):
         save_path=str(FIGURES_DIR / 'lstm_confusion_matrix.png')
     )
     
-    # Training history
-    plot_training_history(
-        history,
-        "LSTM",
-        save_path=str(FIGURES_DIR / 'lstm_training_history.png')
-    )
+    # Training history (if available)
+    if history is not None:
+        plot_training_history(
+            history,
+            "LSTM",
+            save_path=str(FIGURES_DIR / 'lstm_training_history.png')
+        )
+    else:
+        print(" Skipping training history plot (history not available)")
+
     
     print("\n LSTM evaluation complete!")
     print(f" Reports saved to: {METRICS_DIR}")
@@ -431,7 +437,13 @@ def main():
         evaluate_dense_nn(X_train, X_test, y_train, y_test)
     
     if args.model == 'rnn' or args.model == 'all':
-        evaluate_rnn(X_train, X_test, y_train, y_test)
+        if args.model == 'rnn':
+            print("\n" + "="*70)
+            print("  WARNING: RNN model not available")
+            print("="*70)
+            print("\n RNN model was not trained in the notebook.")
+            print(" Only Dense NN and LSTM models are available.\n")
+        # Skip RNN evaluation silently when running --all
     
     if args.model == 'lstm' or args.model == 'all':
         evaluate_lstm(X_train, X_test, y_train, y_test)
