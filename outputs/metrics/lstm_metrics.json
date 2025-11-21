@@ -1,7 +1,7 @@
 {
   "model_name": "LSTM",
   "model_type": "lstm",
-  "timestamp": "2025-11-20T19:28:38.294454",
+  "timestamp": "2025-11-21T09:07:26.988612",
   "performance_metrics": {
     "accuracy": 0.7893772893772893,
     "precision": 0.7649006622516556,

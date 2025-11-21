@@ -1,7 +1,7 @@
 {
   "model_name": "Dense Neural Network",
   "model_type": "dense",
-  "timestamp": "2025-11-20T19:28:32.184087",
+  "timestamp": "2025-11-21T09:07:25.878636",
   "performance_metrics": {
     "accuracy": 0.8186813186813187,
     "precision": 0.7972972972972973,
