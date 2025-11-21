@@ -257,11 +257,6 @@ def print_complexity_report(
 ) -> None:
     """
     Print a formatted complexity and efficiency report.
-    
-    Args:
-        complexity: Model complexity metrics
-        efficiency: Training efficiency metrics
-        model_name: Name of the model
     """
     print(f"\n{'='*70}")
     print(f"  TRAINING COMPLEXITY ANALYSIS: {model_name}")
@@ -279,19 +274,28 @@ def print_complexity_report(
         for layer_info in complexity['layer_parameters']:
             print(f"  • {layer_info['name']:20s} ({layer_info['type']:15s}): {layer_info['parameters']:>8,} params")
     
+    # --- CORRECCIÓN AQUÍ: Función auxiliar para formatear ---
+    def safe_fmt(val):
+        if isinstance(val, (int, float)):
+            return f"{val:.4f}"
+        return str(val)
+    
     print(f"\n Training Efficiency:")
     print(f"  • Epochs Trained:          {efficiency.get('epochs_trained', 'N/A')}")
     if 'best_epoch' in efficiency:
         print(f"  • Best Epoch:              {efficiency['best_epoch']}")
-    print(f"  • Final Train Loss:        {efficiency.get('final_train_loss', 'N/A'):.4f}")
-    print(f"  • Final Train Accuracy:    {efficiency.get('final_train_accuracy', 'N/A'):.4f}")
+        
+    # Usamos safe_fmt en lugar de poner :.4f directamente
+    print(f"  • Final Train Loss:        {safe_fmt(efficiency.get('final_train_loss', 'N/A'))}")
+    print(f"  • Final Train Accuracy:    {safe_fmt(efficiency.get('final_train_accuracy', 'N/A'))}")
+    
     if 'final_val_loss' in efficiency:
-        print(f"  • Final Val Loss:          {efficiency['final_val_loss']:.4f}")
-        print(f"  • Final Val Accuracy:      {efficiency['final_val_accuracy']:.4f}")
+        print(f"  • Final Val Loss:          {safe_fmt(efficiency['final_val_loss'])}")
+        print(f"  • Final Val Accuracy:      {safe_fmt(efficiency['final_val_accuracy'])}")
     
     if 'overfitting_detected' in efficiency:
         print(f"\n Overfitting Analysis:")
-        print(f"  • Train-Val Gap:           {efficiency['train_val_gap']:.4f}")
+        print(f"  • Train-Val Gap:           {safe_fmt(efficiency.get('train_val_gap', 0))}")
         if efficiency['overfitting_detected']:
             severity = efficiency.get('overfitting_severity', 'Unknown')
             print(f"    Overfitting Detected:   {severity}")
@@ -299,8 +303,7 @@ def print_complexity_report(
             print(f"   No Significant Overfitting")
     
     print(f"\n{'='*70}\n")
-
-
+    
 # ============================================================================
 # INTERPRETABILITY ANALYSIS (Dense NN Specific)
 # ============================================================================

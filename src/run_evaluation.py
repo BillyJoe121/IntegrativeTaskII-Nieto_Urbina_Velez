@@ -44,17 +44,22 @@ import pickle
 # CONFIGURATION
 # ============================================================================
 
-# Paths
-DATA_DIR = Path('../data/processed')
-MODELS_DIR = Path('../outputs/saved_models')
-METRICS_DIR = Path('../outputs/metrics')
-FIGURES_DIR = Path('../outputs/figures')
+# Get the directory where this script is located (src/)
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+# Define paths relative to the script location
+# PROJECT_ROOT is one level up from src/
+PROJECT_ROOT = SCRIPT_DIR.parent 
+
+DATA_DIR = PROJECT_ROOT / 'data' / 'processed'
+MODELS_DIR = PROJECT_ROOT / 'outputs' / 'saved_models'
+METRICS_DIR = PROJECT_ROOT / 'outputs' / 'metrics'
+FIGURES_DIR = PROJECT_ROOT / 'outputs' / 'figures'
 
 # Ensure directories exist
 METRICS_DIR.mkdir(parents=True, exist_ok=True)
 FIGURES_DIR.mkdir(parents=True, exist_ok=True)
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
-
 
 # ============================================================================
 # DATA LOADING

@@ -1,0 +1,72 @@
+{
+  "model_name": "Dense Neural Network",
+  "model_type": "dense",
+  "timestamp": "2025-11-20T19:28:32.184087",
+  "performance_metrics": {
+    "accuracy": 0.8186813186813187,
+    "precision": 0.7972972972972973,
+    "recall": 0.8581818181818182,
+    "f1_score": 0.8266199649737302,
+    "cohen_kappa": 0.6371386759394762,
+    "true_negatives": 211,
+    "false_positives": 60,
+    "false_negatives": 39,
+    "true_positives": 236,
+    "specificity": 0.7785977859778598
+  },
+  "complexity": {
+    "total_parameters": 230721,
+    "trainable_parameters": 230721,
+    "non_trainable_parameters": 0,
+    "estimated_memory_mb": 0.88,
+    "num_layers": 5,
+    "layer_types": [
+      "Dense",
+      "Dropout",
+      "Dense",
+      "Dropout",
+      "Dense"
+    ],
+    "layer_parameters": [
+      {
+        "name": "dense_3",
+        "type": "Dense",
+        "parameters": 228608
+      },
+      {
+        "name": "dropout_2",
+        "type": "Dropout",
+        "parameters": 0
+      },
+      {
+        "name": "dense_4",
+        "type": "Dense",
+        "parameters": 2080
+      },
+      {
+        "name": "dropout_3",
+        "type": "Dropout",
+        "parameters": 0
+      },
+      {
+        "name": "dense_5",
+        "type": "Dense",
+        "parameters": 33
+      }
+    ]
+  },
+  "efficiency": {
+    "epochs_trained": 8,
+    "final_train_loss": 0.10794530808925629,
+    "final_train_accuracy": 0.9707568883895874,
+    "final_val_loss": 0.48774415254592896,
+    "final_val_accuracy": 0.7775229215621948,
+    "best_epoch": 5,
+    "best_val_loss": 0.4356517195701599,
+    "early_stopped": true,
+    "epochs_after_best": 3,
+    "train_val_gap": 0.37979884445667267,
+    "overfitting_detected": true,
+    "overfitting_severity": "High"
+  }
+}
