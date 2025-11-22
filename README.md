@@ -76,4 +76,4 @@ This will use `cleaned_data.csv` to generate two new files:
 
 -----
 
-**Project Status:** You are now ready to proceed to the baseline model (`02_baseline_model.ipynb`).
+**Project Status:** You are now ready to proceed to the baseline model (`02_baseline_model.ipynb`). 
